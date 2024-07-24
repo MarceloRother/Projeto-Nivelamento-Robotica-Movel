@@ -1,26 +1,27 @@
 // src/main.rs
-mod sensor;
-mod pid;
-
 use sensor::Sensor;
 use pid::PID;
+use jogo::Jogo;
+
+mod sensor;
+mod pid;
+mod jogo;
+mod carteiro;
+mod caixa;
+
+//  JOGO DA ENTREGA
+//
+// O jogo consiste em fazer com que o carteiro ('&') leve a caixa ('@') até ó ponto desejado ('X') em um campo que será uma matriz 20x20, onde ('+') representa um espaço válido..
+// Para desenvolver tal projeto vocês terão de usar/desenvolver as estruturas 'carteiro', 'caixa', e 'jogo'.
+// Obs:
+//   - O carteiro só pode andar um 'índice' por iteração
+//   - Apliquem a ideia de Encapsulamento
+//   - O código tera uma mapa de exemplo para o teste enquanto estiver em desenvolvimento
+//   - No dia da apresentação o código será posto em prática com um código diferente 
 
 fn main() {
-    let mut sensor = Sensor::new();
-    let mut pid_pitch = PID::new(1.0, 0.1, 0.01);
-    let mut pid_roll = PID::new(1.0, 0.1, 0.01);
+    let matriz: [[char; 20]; 20];
 
-    let setpoint = 0.0;
-
-    for _ in 0..100 {
-        sensor.update();
-
-        let pitch_adjustment = pid_pitch.update(setpoint, sensor.pitch);
-        let roll_adjustment = pid_roll.update(setpoint, sensor.roll);
-
-        sensor.pitch -= pitch_adjustment;
-        sensor.roll -= roll_adjustment;
-
-        println!("Pitch: {:.2}, Roll: {:.2}", sensor.pitch, sensor.roll);
-    }
+    let jogo = Jogo::new();
+    jogo.cria_jogo();
 }
