@@ -1,5 +1,5 @@
 use core::num;
-use std::{io::{self, Write}, num::ParseIntError};
+use std::{io::{self, Write}, num::ParseIntError, process::Command};
 use caixa::Caixa;
 use carteiro::Carteiro;
 use sensor::Sensor;
@@ -22,6 +22,18 @@ mod caixa;
 //   - O código tera uma mapa de exemplo para o teste enquanto estiver em desenvolvimento
 //   - No dia da apresentação o código será posto em prática com um código diferente 
 
+fn limpa_terminal() {
+    if cfg!(target_os = "windows") {
+        Command::new("cmd")
+            .args(&["/C", "cls"])
+            .status()
+            .unwrap();
+    } else {
+        // Comando para outros sistemas operacionais, como Linux e macOS
+        Command::new("clear").status().unwrap();
+    }
+}
+
 fn le_terminal() -> Vec<i32> {
     let mut num = Vec::new();
 
@@ -39,14 +51,21 @@ fn le_terminal() -> Vec<i32> {
 
 }
 
-fn aux_le_terminal() -> i32{
+fn aux_le_terminal() -> i32 {
     loop {
         let mut input = String::new();
         match io::stdin().read_line(&mut input) {
             Ok(_) => {
                 let trimmed_input = input.trim();
                 match trimmed_input.parse::<i32>() {
-                    Ok(num) => return num,
+                    Ok(num) => {
+                        if num < 0 || num > 19 {
+                            println!("Número fora do intervalo (0-19). Por favor, digite novamente.");
+                            continue;
+                        } else {
+                            return num;
+                        }
+                    }
                     Err(_) => {
                         println!("Número inválido. Por favor, digite novamente.");
                         continue;
@@ -63,6 +82,7 @@ fn aux_le_terminal() -> i32{
 
 fn main() {
     // Setup
+    limpa_terminal();
     let mut matriz: Vec<Vec<char>> = vec![vec!['+'; 20]; 20];
 
     
@@ -80,6 +100,7 @@ fn main() {
     println!("Digite as coordenadas do destino.");
     let aux = le_terminal();
 
+    // Inicializa jogo
     let mut jogo = Jogo::new(carteiro, caixa, matriz);
-    jogo.cria_jogo();
+    jogo.joga();
 }

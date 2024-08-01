@@ -15,4 +15,12 @@ impl Sensor {
         self.pitch += rng.gen_range(-1.0..1.0);
         self.roll += rng.gen_range(-1.0..1.0);
     }
+
+    pub fn get_pitch(&self) -> f64 {
+        self.pitch
+    }
+
+    pub fn get_roll(&self) -> f64 {
+        self.roll
+    }
 }
