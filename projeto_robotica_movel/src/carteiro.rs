@@ -12,5 +12,11 @@ pub struct Carteiro{
 }
 
 impl Carteiro{
-    
+
+}
+
+impl Default for Carteiro {
+    fn default() -> Self {
+        Self { pos_x: 0, pos_y: 0, status: Status::menu}
+    }
 }
