@@ -1,4 +1,3 @@
-// src/sensor.rs
 use rand::Rng;
 
 pub struct Sensor {

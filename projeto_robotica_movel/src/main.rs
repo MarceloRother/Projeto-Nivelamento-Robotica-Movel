@@ -1,5 +1,7 @@
 use core::num;
-use std::{io, num::ParseIntError};
+use std::{io::{self, Write}, num::ParseIntError};
+use caixa::Caixa;
+use carteiro::Carteiro;
 use sensor::Sensor;
 use pid::PID;
 use jogo::Jogo;
@@ -24,10 +26,12 @@ fn le_terminal() -> Vec<i32> {
     let mut num = Vec::new();
 
     print!("X: ");
+    io::stdout().flush().unwrap();
     let x = aux_le_terminal();
     num.push(x);
 
     print!("Y: ");
+    io::stdout().flush().unwrap();
     let y = aux_le_terminal();
     num.push(y);
 
@@ -38,33 +42,44 @@ fn le_terminal() -> Vec<i32> {
 fn aux_le_terminal() -> i32{
     loop {
         let mut input = String::new();
-        io::stdin().read_line(&mut input);
-        input.trim();
-
-        match input.parse::<i32>(){
-            Ok(num) => return num,
-            Err(_) => continue,
+        match io::stdin().read_line(&mut input) {
+            Ok(_) => {
+                let trimmed_input = input.trim();
+                match trimmed_input.parse::<i32>() {
+                    Ok(num) => return num,
+                    Err(_) => {
+                        println!("Número inválido. Por favor, digite novamente.");
+                        continue;
+                    }
+                }
+            }
+            Err(_) => {
+                println!("Erro ao ler a entrada. Por favor, tente novamente.");
+                continue;
+            }
         }
-        println!("Numero invalido. Por favor digite novamente.")
     }
 }
 
 fn main() {
     // Setup
-    let matriz: [[char; 20]; 20] = [['+'; 20]; 20];
+    let mut matriz: Vec<Vec<char>> = vec![vec!['+'; 20]; 20];
+
     
-    // Coordenadas do carteiro
+    // Declarando Carteiro
     println!("Digite as coordenadas do carteiro.");
     let aux = le_terminal();
+    let mut carteiro = Carteiro::new(aux[0], aux[1]);
 
-    // Coordenadas da caixa
+    // Declarando Caixa
     println!("Digite as coordenadas da caixa.");
     let aux = le_terminal();
+    let mut caixa = Caixa::new(aux[0], aux[1]);
 
-    // Coordenadas do destino
+    // Coletando coordenadas do destino
     println!("Digite as coordenadas do destino.");
     let aux = le_terminal();
 
-    let jogo = Jogo::default();
-    jogo.cria_jogo(matriz);
+    let mut jogo = Jogo::new(carteiro, caixa, matriz);
+    jogo.cria_jogo();
 }
