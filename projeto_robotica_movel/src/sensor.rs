@@ -1,8 +1,8 @@
 use rand::Rng;
 
 pub struct Sensor {
-    pub pitch: f64,
-    pub roll: f64,
+    pitch: f64,
+    roll: f64,
 }
 
 impl Sensor {
