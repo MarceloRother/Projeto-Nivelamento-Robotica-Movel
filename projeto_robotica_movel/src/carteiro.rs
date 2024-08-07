@@ -1,16 +1,15 @@
 use crate::sensor::Sensor;
 
-#[derive(Clone, Copy, PartialEq)]
-enum Direcao{
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub enum Direcao{
     norte,
     sul,
     leste,
     oeste
 }
 
-#[derive(Clone, Copy)]
-enum Status{
-    menu,
+#[derive(Clone, Copy, PartialEq, Debug)]
+pub enum Status{
     jogando_sem_caixa,
     jogando_com_caixa,
     fim
@@ -26,10 +25,12 @@ pub struct Carteiro{
 }
 
 impl Carteiro{
+    // Construtor
     pub fn new(x: i32, y: i32) -> Self {
-        Self { pos_x: x, pos_y: y, status: Status::menu, sensor: Sensor::new(), direcao: Direcao::norte}
+        Self { pos_x: x, pos_y: y, status: Status::jogando_sem_caixa, sensor: Sensor::new(), direcao: Direcao::norte}
     }
 
+    // Metodos de get para os atributos
     pub fn get_pos_x(&self) -> i32{
         self.pos_x
     }
@@ -46,10 +47,6 @@ impl Carteiro{
         self.sensor.get_roll()
     }
 
-    pub fn update_sensor(&mut self) {
-        self.sensor.update();
-    }
-
     pub fn get_status(&self) -> Status {
         self.status
     }
@@ -58,6 +55,20 @@ impl Carteiro{
         self.direcao
     }
 
+    pub fn set_status(&mut self, novo_status: Status) {
+        self.status = novo_status;
+    }
+
+    pub fn muda_direcao(&mut self, nova_direcao: Direcao) {
+        self.direcao = nova_direcao;
+    }
+
+    // Uptdate OBRIGATORIO do sensor
+    pub fn update_sensor(&mut self) {
+        self.sensor.update();
+    }
+
+    // Verifica a possibilidade do robo se locomover para tal direcao
     pub fn verifica_andar(&self) -> bool {
         match self.get_direcao() {
             Direcao::norte => {
@@ -95,78 +106,47 @@ impl Carteiro{
         }
     }
 
-    pub fn andar_x(&mut self) -> Option<bool>{
-        match self.get_direcao() {
-            Direcao::leste => { 
-                self.pos_x += 1;
-                None
-            },
-            Direcao::oeste => { 
-                self.pos_x -= 1;
-                None
-            },
-            _ => {
-                Some(false)
-            }
-        }
-    }
-
-    pub fn andar_y(&mut self) -> Option<bool>{
+    // Utiliza a funcao verifica_andar() para saber a possibilidade de locomocao do robo.
+    // Se verdadeiro, entao move o robo sem retorno. 
+    // Se falso, retorna falso sem mover o robo
+    pub fn andar(&mut self) -> Option<bool>{
         match self.get_direcao() {
             Direcao::norte => { 
-                self.pos_y += 1;
-                None
+                if self.get_pos_x() >= 19 {
+                    Some(false)
+                }
+                else {
+                    self.pos_x += 1;
+                    None
+                }
             },
             Direcao::sul => { 
-                self.pos_y -= 1;
-                None
+                if self.get_pos_x() <= 0 {
+                    Some(false)
+                }
+                else {
+                    self.pos_x -= 1;
+                    None
+                }
             },
-            _ => {
-                Some(false)
-            }
-        }
-    }
-
-    pub fn andar(&mut self) -> bool{
-        match self.get_direcao() {
-            Direcao::norte => {
-                if self.verifica_andar(){
-                    self.andar_y();
-                    true
+            Direcao::leste => { 
+                if self.get_pos_y() >= 19 {
+                    Some(false)
                 }
                 else {
-                    false
+                    self.pos_y += 1;
+                    None
                 }
-            }
-            Direcao::sul => {
-                if self.verifica_andar(){
-                    self.andar_y();
-                    true
-                }
-                else {
-                    false
-                }
-            }
-            Direcao::leste => {
-                if self.verifica_andar(){
-                    self.andar_x();
-                    true
+            },
+            Direcao::oeste => { 
+                if self.get_pos_y() <= 0 {
+                    Some(false)
                 }
                 else {
-                    false
-                }
-            }
-            Direcao::oeste => {
-                if self.verifica_andar(){
-                    self.andar_x();
-                    true
-                }
-                else {
-                    false
+                    self.pos_y -= 1;
+                    None
                 }
             }
         }
     }
-
-    
 }

@@ -101,6 +101,6 @@ fn main() {
     let aux = le_terminal();
 
     // Inicializa jogo
-    let mut jogo = Jogo::new(carteiro, caixa, matriz);
+    let mut jogo = Jogo::new(carteiro, caixa, matriz, aux[0], aux[1]);
     jogo.joga();
 }
