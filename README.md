@@ -3,13 +3,13 @@ Esse projeto visa analisar um pouco do seu entendimento sobre Robotica Movel, nu
 
 ## Enunciado
 ### JOGO DA ENTREGA
-O jogo consiste em fazer com que o carteiro (**&**) leve a caixa (**@**) até o ponto desejado (**X**) em um campo que será uma matriz 20x20, onde (**+**) representa um espaço válido...  
-Para desenvolver tal projeto vocês terão de usar/desenvolver as estruturas `carteiro`, `caixa`, e `jogo`.
+O jogo consiste em fazer com que o carteiro (**&**) leve a caixa (**@**) até o ponto desejado (**X**) em um campo que será uma matriz 20x20, onde (**+**) representa um espaço válido. 
+Alem disso, o carteiro possui um sistema de "desequilíbrio", portanto é sua função equilibrá-lo. Para isso, vocês devem implementar algum algoritmo de controle. No projeto já existe a classe PID. Você pode usa-lá ou criar outra.
+Para desenvolver tal projeto vocês terão de usar/desenvolver as estruturas `carteiro`, `caixa`, `jogo`, e `PID` (como exemplo de estrutura para o algoritmo de controle).
 Regras:  
-- O carteiro só pode andar um *índice / casa* por iteração  
-- Apliquem a ideia de Encapsulamento  
-- O código terá uma mapa de exemplo para o teste enquanto estiver em desenvolvimento  
-- No dia da apresentação o código será posto em prática com um código diferente   
+- O carteiro só pode andar um *índice / casa* por iteração
+- Para que o carteiro ande para uma certa direção ele precisa estar virado para ela
+- Apliquem a ideia de Encapsulamento
 - Utilize a tecnologia ou algoritmo que achar mais conveniente
 
 ## Facilitando sua vida
@@ -18,7 +18,8 @@ Regras:
 - [Rust Book](https://doc.rust-lang.org/book/)
 - [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
 - [Rust Standard Library](https://doc.rust-lang.org/std/)
-- [Resumão de Rust em 10 Minutos](https://www.youtube.com/watch?v=br3GIIQeefY)  
+- [Resumão de Rust em 10 Minutos](https://www.youtube.com/watch?v=br3GIIQeefY)
+- [Resumo Sobre Controle PID](https://www.youtube.com/watch?v=LMhjjwnojU0&t=16s) 
 
 *Infelizmente todos os links são em inglês, Rust ainda não é tão popular no Brasil, então há pouco conteúdo em PT-BR*
 
