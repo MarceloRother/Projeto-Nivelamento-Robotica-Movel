@@ -8,6 +8,8 @@ pub struct Jogo{
     carteiro: Carteiro,
     caixa: Caixa,
     mapa: Vec<Vec<char>>,
+    ult_pos_x: i32,
+    ult_pos_y: i32,
     destino_x: i32,
     destino_y: i32
 }
@@ -15,7 +17,7 @@ pub struct Jogo{
 impl Jogo {
     // Construtor
     pub fn new(novo_cateiro: Carteiro, novo_caixa: Caixa, mapa: Vec<Vec<char>>, x: i32, y: i32) -> Self {
-        Self {carteiro: novo_cateiro, caixa: novo_caixa, mapa: mapa, destino_x: x, destino_y: y}
+        Self {carteiro: novo_cateiro, caixa: novo_caixa, mapa: mapa, ult_pos_x: 0, ult_pos_y: 0, destino_x: x, destino_y: y}
     }
 
     // Funcao para limpar terminal
@@ -53,7 +55,7 @@ impl Jogo {
             std::process::exit(0);
         }
 
-        // Atualiza local do carteiro
+        // Atualiza local do carteiro e 
         for (i_usize, row) in self.mapa.iter_mut().enumerate() {
             let i = i_usize as i32;
             if i == self.carteiro.get_pos_x() {
@@ -63,8 +65,18 @@ impl Jogo {
                         *elem = '&';
                     }
                 }
+            }
+            else if i == self.ult_pos_x {
+                for (j_usize, elem) in  row.iter_mut().enumerate(){
+                    let j = j_usize as i32;
+                    if j == self.ult_pos_y {
+                        *elem = '+';
+                    }
+                }
             }  
         }
+
+
 
         if self.carteiro.get_pos_x() == self.caixa.get_pos_x() && self.carteiro.get_pos_y() == self.caixa.get_pos_y() {
             self.carteiro.set_status(Status::jogando_com_caixa);
