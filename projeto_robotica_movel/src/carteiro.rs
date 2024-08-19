@@ -72,7 +72,7 @@ impl Carteiro{
     pub fn verifica_andar(&self) -> bool {
         match self.get_direcao() {
             Direcao::norte => {
-                if self.get_pos_y() >= 19 {
+                if self.get_pos_y() > 19 {
                     false
                 }
                 else {
@@ -80,7 +80,7 @@ impl Carteiro{
                 }
             }
             Direcao::sul => {
-                if self.get_pos_x() <= 0 {
+                if self.get_pos_y() < 0 {
                     false
                 }
                 else {
@@ -88,7 +88,7 @@ impl Carteiro{
                 }
             }
             Direcao::leste => {
-                if self.get_pos_x() >= 19 {
+                if self.get_pos_x() > 19 {
                     false
                 }
                 else {
@@ -96,7 +96,7 @@ impl Carteiro{
                 }
             }
             Direcao::oeste => {
-                if self.get_pos_x() <= 0 {
+                if self.get_pos_x() < 0 {
                     false
                 }
                 else {
@@ -112,7 +112,7 @@ impl Carteiro{
     pub fn andar(&mut self) -> Option<bool>{
         match self.get_direcao() {
             Direcao::norte => { 
-                if self.get_pos_x() >= 19 {
+                if self.get_pos_y() > 19 {
                     Some(false)
                 }
                 else {
@@ -121,7 +121,7 @@ impl Carteiro{
                 }
             },
             Direcao::sul => { 
-                if self.get_pos_x() <= 0 {
+                if self.get_pos_y() < 0 {
                     Some(false)
                 }
                 else {
@@ -130,7 +130,7 @@ impl Carteiro{
                 }
             },
             Direcao::leste => { 
-                if self.get_pos_y() >= 19 {
+                if self.get_pos_x() > 19 {
                     Some(false)
                 }
                 else {
@@ -139,7 +139,7 @@ impl Carteiro{
                 }
             },
             Direcao::oeste => { 
-                if self.get_pos_y() <= 0 {
+                if self.get_pos_x() < 0 {
                     Some(false)
                 }
                 else {
